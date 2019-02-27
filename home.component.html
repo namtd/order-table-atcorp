@@ -1,0 +1,129 @@
+<!-- <h1>Hi {{currentUser.firstName}}!</h1>
+<p>You're logged in with Angular 7!!</p>
+<h3>All registered users:</h3> -->
+<!-- <ul>
+    <li *ngFor="let user of users">
+        {{user.username}} ({{user.firstName}} {{user.lastName}})
+        - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
+    </li>
+</ul> -->
+
+<body>
+    <div class="col-md-12">
+        <div class="row">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">Are you ready to Order</a>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </nav>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-12"><span class="panel-title">Order Summary</span></div>
+                        </div>
+                    </div>
+                    <div class="panel-body" style="max-height:320px; overflow:auto;">
+                        <div class="text-warning" ng-hide="order.length">
+                            Nothing ordered yet!
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let item of orderItems">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <span class="badge badge-left">{{item.qty}}</span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{item.name}}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="label label-success">{{item.price * item.qty | currency:'':'':'1.0-0'}} VND</div>
+                                    </div>
+                                    <!-- <div class="col-md-1 col-md-push-1">
+                                        <div class="label label-warning">{{item.price | currency:'':'':'1.0-0'}} VND</div>
+                                    </div> -->
+                                    <div class="col-md-3">
+                                        <button class="btn btn-danger btn-xl" (click)="removeItem(item)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer" ng-show="order.length">
+                        <h3><span class="label label-primary">Total: {{getTotalMoney() | currency:'':'':'1.0-0'}} VND</span></h3>
+                    </div>
+                    <div class="panel-footer" ng-show="order.length">
+                        <div>
+                            <button [disabled]="!orderItems.length" class="btn btn-default btn-marginTop" (click)="clearOrder()">Clear</button>
+                            <button [disabled]="!orderItems.length" class="btn btn-danger btn-marginTop" (click)="checkout()">Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#drink" role="tab" data-toggle="tab">Drinks</a></li>
+                            <li role="presentation"><a href="#food" role="tab" data-toggle="tab">Food</a></li>
+                            <li role="presentation"><a href="#new" role="tab" data-toggle="tab">New Item</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="drink">
+                                <button class="btn btn-primary btn-pos btn-marginTop" *ngFor="let item of menuDrinks" (click)="addToOrder(item,1)">{{item.name}}</button>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="food">
+                                <button class="btn btn-warning btn-pos btn-marginTop" *ngFor="let item of menuFoods" (click)="addToOrder(item,1)">{{item.name}}</button>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="new">
+                                <br />
+                                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                                        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                            <div *ngIf="f.name.errors.required">Name is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price">Price</label>
+                                        <input type="text" formControlName="price" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
+                                        <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                                            <div *ngIf="f.price.errors.required">Price is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <select class="form-control" formControlName="category" [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
+                                            <option>Drinks</option>
+                                            <option>Foods</option>
+                                        </select>
+                                        <div *ngIf="submitted && f.category.errors" class="invalid-feedback">
+                                            <div *ngIf="f.category.errors.required">Category is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button [disabled]="loading" class="btn btn-primary">Register</button>
+                                        <img *ngIf="loading" class="pl-3" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
